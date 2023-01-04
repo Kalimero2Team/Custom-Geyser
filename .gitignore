@@ -1,0 +1,25 @@
+# Ignore everything
+/*
+
+# Folders
+!/gradle
+!/src
+!/.github
+!/Geyser
+!/patches
+
+# Files
+!/.gitattributes
+!/.gitignore
+!/.editorconfig
+!/build.gradle
+!/gradle.properties
+!/gradlew
+!/gradlew.bat
+!/HEADER
+!/LICENSE
+!/README.md
+!/settings.gradle
+!/checkstyle.xml
+!/codenarc.groovy
+!/bootstrap

@@ -1,0 +1,9 @@
+plugins {
+    id 'net.minecraftforge.gitpatcher' version "0.10.+"
+}
+
+patches {
+    submodule = "Geyser"
+    target = file('Custom-Geyser')
+    patches = file('patches')
+}

@@ -1,0 +1,53 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: byquanton <32410361+byquanton@users.noreply.github.com>
+Date: Wed, 4 Jan 2023 01:59:12 +0100
+Subject: [PATCH] Only Build Spigot and Standalone
+
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index e36ce27bab28836677aac6361ca8f261ea1bf204..e0d45a36d3ecd320181e32d3f8b4115239fc2d9e 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -15,12 +15,8 @@ allprojects {
+ }
+ 
+ val platforms = setOf(
+-    projects.fabric,
+-    projects.bungeecord,
+     projects.spigot,
+-    projects.sponge,
+-    projects.standalone,
+-    projects.velocity
++    projects.standalone
+ ).map { it.dependencyProject }
+ 
+ val api: Project = projects.api.dependencyProject
+diff --git a/settings.gradle.kts b/settings.gradle.kts
+index 6f212d3acc71fd5ca4ec040166c287fae41a11d3..cd3df787ad9476d0a4a26b217d83f7ce66653e01 100644
+--- a/settings.gradle.kts
++++ b/settings.gradle.kts
+@@ -63,21 +63,13 @@ rootProject.name = "geyser-parent"
+ include(":ap")
+ include(":api")
+ include(":geyser-api")
+-include(":bungeecord")
+-include(":fabric")
+ include(":spigot")
+-include(":sponge")
+ include(":standalone")
+-include(":velocity")
+ include(":common")
+ include(":core")
+ 
+ // Specify project dirs
+ project(":api").projectDir = file("api/base")
+ project(":geyser-api").projectDir = file("api/geyser")
+-project(":bungeecord").projectDir = file("bootstrap/bungeecord")
+-project(":fabric").projectDir = file("bootstrap/fabric")
+ project(":spigot").projectDir = file("bootstrap/spigot")
+-project(":sponge").projectDir = file("bootstrap/sponge")
+-project(":standalone").projectDir = file("bootstrap/standalone")
+-project(":velocity").projectDir = file("bootstrap/velocity")
+\ No newline at end of file
++project(":standalone").projectDir = file("bootstrap/standalone")
+\ No newline at end of file

@@ -1,0 +1,82 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: byquanton <32410361+byquanton@users.noreply.github.com>
+Date: Wed, 4 Jan 2023 01:55:00 +0100
+Subject: [PATCH] Setup Publishing for other Repository
+
+
+diff --git a/build-logic/src/main/kotlin/geyser.publish-conventions.gradle.kts b/build-logic/src/main/kotlin/geyser.publish-conventions.gradle.kts
+index 7525f97fab0cb23df4dce687c5ffec8103f1ea94..653a00fe9cef427bc0eaf910f2ed768d559578d3 100644
+--- a/build-logic/src/main/kotlin/geyser.publish-conventions.gradle.kts
++++ b/build-logic/src/main/kotlin/geyser.publish-conventions.gradle.kts
+@@ -1,6 +1,5 @@
+ plugins {
+     id("geyser.shadow-conventions")
+-    id("com.jfrog.artifactory")
+     id("maven-publish")
+ }
+ 
+@@ -14,20 +13,18 @@ publishing {
+             from(components["java"])
+         }
+     }
+-}
+-
+-artifactory {
+-    setContextUrl("https://repo.opencollab.dev/artifactory")
+-    publish {
+-        repository {
+-            setRepoKey(if (isSnapshot()) "maven-snapshots" else "maven-releases")
+-            setMavenCompatible(true)
+-        }
+-        defaults {
+-            publications("mavenJava")
+-            setPublishArtifacts(true)
+-            setPublishPom(true)
+-            setPublishIvy(false)
++    repositories {
++        maven {
++            name = "byquantonRepo"
++            url = if(version.toString().endsWith("-SNAPSHOT")) {
++                uri("https://repo.byquanton.eu/snapshots")
++            } else {
++                uri("https://repo.byquanton.eu/releases")
++            }
++            credentials {
++                username = System.getenv("REPO_USERNAME")
++                password = System.getenv("REPO_PASSWORD")
++            }
+         }
+     }
+-}
++}
+\ No newline at end of file
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 06c2e987b0039caa307403b60d8a00123104d0f9..e36ce27bab28836677aac6361ca8f261ea1bf204 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -5,8 +5,8 @@ plugins {
+ }
+ 
+ allprojects {
+-    group = "org.geysermc"
+-    version = "2.1.0-SNAPSHOT"
++    group = "com.kalimero2.team"
++    version = "2.1.0-custom-SNAPSHOT"
+     description = "Allows for players from Minecraft: Bedrock Edition to join Minecraft: Java Edition servers."
+ 
+     tasks.withType<JavaCompile> {
+diff --git a/gradle.properties b/gradle.properties
+index 4fb72e2fc2c3509f687e5fc25da3585f0a2f4245..9b68698fc8ac68f033036fd2a4320e01d5b5028b 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -4,8 +4,8 @@ org.gradle.configureondemand=true
+ org.gradle.caching=true
+ org.gradle.parallel=true
+ 
+-group=org.geysermc
+-version=2.1.0-SNAPSHOT
++group=com.kalimero2.team
++version=2.1.0-custom-SNAPSHOT
+ 
+ org.gradle.caching=true
+ org.gradle.parallel=true

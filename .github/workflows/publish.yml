@@ -1,0 +1,27 @@
+name: Publish
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - uses: gradle/wrapper-validation-action@v1
+      - run: git config --global user.email "nobody@example.com"
+      - run: git config --global user.name "Nobody"
+      - run: ./gradlew applyPatches
+      - name: "Build and Publish Api to Maven"
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build publish -x check -x test --stacktrace
+          build-root-directory: Custom-Geyser
+        env:
+          REPO_USER: ${{ secrets.BYQUANTON_REPO_USERNAME }}
+          REPO_PASSWORD: ${{ secrets.BYQUANTON_REPO_PASSWORD }}
